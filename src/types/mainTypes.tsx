@@ -14,6 +14,10 @@ declare global {
     type OmniText = {
       [Key in nsGlo.LangCode]?: string;
     };
+
+    type UrlParams = {
+      [Key: string]: string;
+    };
   }
 
   namespace nsForm {
