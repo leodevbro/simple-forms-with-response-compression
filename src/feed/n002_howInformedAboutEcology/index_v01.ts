@@ -6,6 +6,7 @@ export const n002_howInformedAboutEcology_v01: nsForm.One = {
       text: {
         ka: 'what is koka 1',
       },
+      selectedAnswer: null,
       selectableAnswers: [
         {
           id: 'a',
@@ -32,6 +33,7 @@ export const n002_howInformedAboutEcology_v01: nsForm.One = {
       text: {
         ka: 'what is koka 2',
       },
+      selectedAnswer: null,
       selectableAnswers: [
         {
           id: 'a',

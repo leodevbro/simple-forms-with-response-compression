@@ -25,6 +25,10 @@ declare global {
     type Question = {
       id: nsGlo.GoodId;
       text: nsGlo.OmniText;
+      selectedAnswer: null | {
+        index: number;
+        id: nsGlo.GoodId;
+      };
       selectableAnswers: SelectableAnswer[];
     };
 
