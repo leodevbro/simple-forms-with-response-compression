@@ -1,9 +1,13 @@
 // 'use client';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { IBM_Plex_Sans } from 'next/font/google';
 import './globals.css';
+import { StylesLayoutShiftHider } from '@/components/StylesLayoutShiftHider';
 
-const inter = Inter({ subsets: ['latin'] });
+const IBM_Plex_Sans_using = IBM_Plex_Sans({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
+});
 
 export const metadata: Metadata = {
   title: 'Simple form',
@@ -17,7 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={IBM_Plex_Sans_using.className}>
+        <StylesLayoutShiftHider>{children}</StylesLayoutShiftHider>
+      </body>
     </html>
   );
 }

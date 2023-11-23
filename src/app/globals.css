@@ -9,3 +9,7 @@ body {
   max-width: 100vw;
   overflow-x: auto;
 }
+
+body {
+  opacity: 0; /* handled by StylesLayoutShiftHider */
+}
