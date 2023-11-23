@@ -3,8 +3,9 @@ import { useCallback, useMemo, useRef } from 'react';
 import queryString from 'query-string';
 
 export type MainParamsOfUrl = {
-  aaaa778: string;
-  aaaa790: string;
+  formLang?: nsGlo.LangCode;
+  formId?: nsForm.One['id'];
+  aaaa790?: string;
 };
 
 export const useEasyUrlQuery = <T extends nsGlo.UrlParams>() => {
