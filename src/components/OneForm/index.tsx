@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { MainParamsOfUrl, useEasyUrlQuery } from '@/customHooks/main';
-import { allForms } from '@/feed';
+
+import { getFormByDomainAndVersion } from '@/utils/main';
 
 const Ground = styled.div`
   border: 1px solid blue;
@@ -15,35 +16,53 @@ const QuestionsList = styled.div`
 `;
 
 type OneFormProps = {
-  formFeed: nsForm.One;
+  // formFeed: nsForm.One;
+  aaaa?: 'a';
 };
 
-export const OneForm = ({ formFeed }: OneFormProps) => {
+export const OneForm = ({ aaaa }: OneFormProps) => {
   const { urlQueryParams, updateUrlQueryParams } =
     useEasyUrlQuery<MainParamsOfUrl>();
 
-  const currForm = useMemo(() => {
-    // const foundForm = allForms.n0
+  const currForm = useMemo<nsForm.One | null>(() => {
+    const foundForm = getFormByDomainAndVersion({
+      domainId: urlQueryParams.domainId,
+      vId: urlQueryParams.vId,
+    });
+
+    return foundForm;
   }, [urlQueryParams]);
 
   console.log('urlQueryParams:::', urlQueryParams);
 
-  const [fillingOfTheForm, setFillingOfTheForm] = useState<nsForm.One>(
-    structuredClone(formFeed),
+  const [fillingOfTheForm, setFillingOfTheForm] = useState<nsForm.One | null>(
+    structuredClone(currForm),
   );
 
-  const currFormLang = urlQueryParams.formLang;
-
   useEffect(() => {
-    // if formFeed changes, reset the filling entirely
+    // if form changes, reset the filling entirely
 
-    setFillingOfTheForm(structuredClone(formFeed));
+    const foundForm = getFormByDomainAndVersion({
+      domainId: urlQueryParams.domainId,
+      vId: urlQueryParams.vId,
+    });
+
+    setFillingOfTheForm(structuredClone(foundForm));
 
     return () => {
       // clean up anything?
     };
-  }, [formFeed]);
+  }, [urlQueryParams.domainId, urlQueryParams.vId]);
 
+  if (!fillingOfTheForm) {
+    if (!urlQueryParams.domainId) {
+      return <div>Please select domain</div>;
+    }
+    if (!urlQueryParams.vId) {
+      return <div>Please select form version for this domain</div>;
+    }
+    throw new Error(`Form not found --- !fillingOfTheForm --- OneForm`);
+  }
 
   return (
     <Ground>
@@ -63,7 +82,7 @@ export const OneForm = ({ formFeed }: OneFormProps) => {
       <div>sfsdfsdsdfvsf</div>
 
       <QuestionsList>
-        {formFeed.questions.map((question, questionIndex) => {
+        {fillingOfTheForm.questions.map((question, questionIndex) => {
           return (
             <OneQuestion
               key={question.id}

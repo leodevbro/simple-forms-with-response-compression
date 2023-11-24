@@ -9,20 +9,20 @@ const Ground = styled.div`
 `;
 
 export const FormShower = () => {
-  const allFormsFeed = useMemo<typeof allFormsAsSmart2D>(() => {
-    if (!allFormsAsSmart2D) {
-      throw new Error(`allForms is falsy --- useMemo --- FormShower`);
-    }
-    return allFormsAsSmart2D;
-  }, []);
+  // const allFormsFeed = useMemo<typeof allFormsAsSmart2D>(() => {
+  //   if (!allFormsAsSmart2D) {
+  //     throw new Error(`allForms is falsy --- useMemo --- FormShower`);
+  //   }
+  //   return allFormsAsSmart2D;
+  // }, []);
 
-  const [currForm, setCurrForm] = useState<nsForm.One>(
-    allFormsFeed.domains[0].versions[0],
-  );
+  // const [currForm, setCurrForm] = useState<nsForm.One>(
+  //   allFormsFeed.domains[0].versions[0],
+  // );
 
   return (
     <Ground>
-      <OneForm formFeed={currForm} />
+      <OneForm />
     </Ground>
   );
 };

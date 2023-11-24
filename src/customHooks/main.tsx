@@ -4,7 +4,8 @@ import queryString from 'query-string';
 
 export type MainParamsOfUrl = {
   formLang?: nsGlo.LangCode;
-  formId?: nsForm.One['id'];
+  domainId?: nsGlo.GoodId;
+  vId?: nsGlo.GoodId;
   aaaa790?: string;
 };
 
