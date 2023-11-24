@@ -1,52 +1,13 @@
-import { n001_soulStyle_v01 } from '@/feed/domains/n001_soulStyle/versions/v01';
-import { n001_soulStyle_v02 } from '@/feed/domains/n001_soulStyle/versions/v02';
-import { n002_howInformedAboutEcology_v01 } from '@/feed/domains/n002_howInformedAboutEcology/versions/v01';
-import { n002_howInformedAboutEcology_v02 } from '@/feed/domains/n002_howInformedAboutEcology/versions/v02';
-import { n003_artTaste_v01 } from '@/feed/domains/n003_artTaste/versions/v01';
-import { n003_artTaste_v02 } from '@/feed/domains/n003_artTaste/versions/v02';
+import { domain___n001_soulStyle } from '@/feed/domains/n001_soulStyle';
 
-/*
+import { domain___n002_howInformedAboutEcology } from '@/feed/domains/n002_howInformedAboutEcology';
 
-{
-  n001_soulStyle: {
-    v01: nsForm.One;
-    v02: nsForm.One;
-  };
-  n002_howInformedAboutEcology: {
-    v01: nsForm.One;
-    v02: nsForm.One;
-  };
-  n003_artTaste: {
-    v01: nsForm.One;
-    v02: nsForm.One;
-  };
-}
-
-*/
-
-export const allForms = {
-  n001_soulStyle: {
-    v01: n001_soulStyle_v01,
-    v02: n001_soulStyle_v02,
-  },
-  n002_howInformedAboutEcology: {
-    v01: n002_howInformedAboutEcology_v01,
-    v02: n002_howInformedAboutEcology_v02,
-  },
-  n003_artTaste: {
-    v01: n003_artTaste_v01,
-    v02: n003_artTaste_v02,
-  },
-} as const;
-
-export type TyOneVersion = {
-  id: nsGlo.GoodId;
-  form: nsForm.One;
-};
+import { domain___n003_artTaste } from '@/feed/domains/n003_artTaste';
 
 export type TyOneDomain = {
   id: nsGlo.GoodId;
-  versions: TyOneVersion[];
+  name: string;
+  versions: nsForm.One[];
 };
 
 export type TyAllForms = {
@@ -54,44 +15,40 @@ export type TyAllForms = {
   domains: TyOneDomain[];
 };
 
-export const allForms741: TyAllForms = (() => {
-  const theThing: TyAllForms = {
-    aaa: 'a',
-    domains: [],
-  };
+export const allFormsAsSmart2D: TyAllForms = {
+  aaa: 'a',
+  domains: [
+    domain___n001_soulStyle,
+    domain___n002_howInformedAboutEcology,
+    domain___n003_artTaste,
+  ],
+};
 
-  const allFormsToArr = Object.entries(allForms);
+export const domainsMap = (() => {
+  const myMap = new Map<nsGlo.GoodId, TyOneDomain>([]);
 
-  allFormsToArr
-    .sort((a, b) => {
-      // a[0] --> 'n001_soulStyle' --- slice(1, 4) --> '001'
-      const nOfA = Number(a[0].slice(1, 4));
-      const nOfB = Number(b[0].slice(1, 4));
+  allFormsAsSmart2D.domains.forEach((domain) => {
+    const currId = domain.id;
 
-      if (nOfA === nOfB) {
-        throw new Error(`nOfA === nOfB --- sort --- allFormsToArr`);
-      }
+    const inTheMap = myMap.get(currId);
 
-      return nOfA > nOfB ? 1 : -1;
-    })
-    .forEach((item) => {
-      // const currDomain: TyOneDomain = {
-      //   id: item[0],
-      // }
-      // theThing.domains.push();
-    });
+    if (inTheMap) {
+      throw new Error(`domain id should be unique --- forEach --- domainsMap`);
+    }
 
-  console.log('allFormsToArr:', allFormsToArr);
+    myMap.set(currId, domain);
 
-  return theThing;
-})();
-
-export const allFormsAsArr = (() => {
-  const arrOfDomains = Object.values(allForms);
-
-  const finalArr: nsForm.One[] = [];
-
-  arrOfDomains.forEach((domain) => {
-    // TODO:
+    // check that forms of this domain has unique versionIds in the domain
+    const setOfVersionIdsInThisDomain = new Set(
+      domain.versions.map((x) => x.versionId),
+    );
+    console.log('setOfVersionIdsInThisDomain', setOfVersionIdsInThisDomain);
+    if (setOfVersionIdsInThisDomain.size !== domain.versions.length) {
+      throw new Error(
+        `versionIds of this domain ${domain.id} is not unique (unique in this domain, it can be non-unique globally)`,
+      );
+    }
   });
+
+  return myMap;
 })();

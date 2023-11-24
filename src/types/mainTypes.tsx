@@ -38,6 +38,7 @@ declare global {
 
     type One = {
       id: nsGlo.GoodId;
+      versionId: nsGlo.GoodId;
       questions: Question[];
     };
   }

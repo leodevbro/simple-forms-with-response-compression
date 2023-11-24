@@ -1,6 +1,6 @@
 'use client';
 import { OneForm } from '@/components/OneForm';
-import { allForms } from '@/feed';
+import { allFormsAsSmart2D } from '@/feed';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -9,15 +9,15 @@ const Ground = styled.div`
 `;
 
 export const FormShower = () => {
-  const allFormsFeed = useMemo<typeof allForms>(() => {
-    if (!allForms) {
+  const allFormsFeed = useMemo<typeof allFormsAsSmart2D>(() => {
+    if (!allFormsAsSmart2D) {
       throw new Error(`allForms is falsy --- useMemo --- FormShower`);
     }
-    return allForms;
+    return allFormsAsSmart2D;
   }, []);
 
   const [currForm, setCurrForm] = useState<nsForm.One>(
-    allFormsFeed.n001_soulStyle.v01,
+    allFormsFeed.domains[0].versions[0],
   );
 
   return (
