@@ -1,5 +1,6 @@
 import { fallbackLang } from '@/customHooks/main';
 import { domainsMap } from '@/feed';
+import { ArrElement } from '@/types/helperTypes';
 
 export const getFormByDomainAndVersion = ({
   domainId,
@@ -48,4 +49,77 @@ export const trnslt = (text: nsGlo.OmniText, lng: nsGlo.LangCode) => {
   );
 
   return '';
+};
+
+export const allLowercaseLatinLetters = [
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+  'g',
+  'h',
+  'i',
+  'j',
+  'k',
+  'l',
+  'm',
+  'n',
+  'o',
+  'p',
+  'q',
+  'r',
+  's',
+  't',
+  'u',
+  'v',
+  'w',
+  'x',
+  'y',
+  'z',
+] as const;
+
+export type TyLowercaseLatinLetter = ArrElement<
+  typeof allLowercaseLatinLetters
+>;
+
+export const allLowercaseLatinLetters_fromSystem = String.fromCharCode(
+  ...Array(123).keys(),
+).slice(97);
+
+(() => {
+  // check that the manully written letters are correct
+
+  if (
+    allLowercaseLatinLetters_fromSystem.length !==
+    allLowercaseLatinLetters.length
+  ) {
+    throw new Error(
+      `allLowercaseLatinLetters_fromSystem.length !== allLowercaseLatinLetters.length`,
+    );
+  }
+
+  allLowercaseLatinLetters.forEach((ch, index) => {
+    if (ch !== allLowercaseLatinLetters_fromSystem[index]) {
+      throw new Error(
+        `ch !== allLowercaseLatinLetters_fromSystem[index] --- check that the manully written letters are correct`,
+      );
+    }
+  });
+})();
+
+export const indexToLatinLowercaseLetter = (ind: number) => {
+  if (typeof ind !== 'number') {
+    throw new Error(`typeof ind !== "number" --- indexToLatinLowercaseLetter`);
+  }
+
+  if (ind < 0 || ind >= allLowercaseLatinLetters.length) {
+    throw new Error(
+      `ind < 0 || ind >= allLowercaseLatinLetters.length --- indexToLatinLowercaseLetter`,
+    );
+  }
+
+  const letter = allLowercaseLatinLetters[ind];
+  return letter;
 };

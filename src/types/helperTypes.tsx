@@ -5,3 +5,7 @@ export type CheckThatAllKeysAreTheSameTypeAsValues<
     [KeyType in keyof ObjEnumType]: KeyType;
   },
 > = null;
+
+export type ArrElement<ArrType> = ArrType extends readonly (infer ElementType)[]
+  ? ElementType
+  : never;

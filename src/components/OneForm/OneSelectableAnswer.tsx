@@ -1,8 +1,15 @@
-import { trnslt } from '@/utils/main';
+import { indexToLatinLowercaseLetter, trnslt } from '@/utils/main';
 import styled from 'styled-components';
 
 const Ground = styled.div`
   border: 1px solid brown;
+`;
+
+const Abc = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: gray;
+  display: inline-block;
 `;
 
 type OneSelectableAnswerProps = {
@@ -16,5 +23,13 @@ export const OneSelectableAnswer = ({
   selectableAnswerIndex,
   formLang,
 }: OneSelectableAnswerProps) => {
-  return <Ground>{trnslt(selectableAnswer.text, formLang)}</Ground>;
+  return (
+    <Ground>
+      <span>
+        <Abc>{indexToLatinLowercaseLetter(selectableAnswerIndex)}</Abc>
+      </span>
+      <span>{` `}</span>
+      <span>{trnslt(selectableAnswer.text, formLang)}</span>
+    </Ground>
+  );
 };

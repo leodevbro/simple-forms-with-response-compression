@@ -7,6 +7,13 @@ const Ground = styled.div`
   border: 1px solid brown;
 `;
 
+const IndexOneIndicator = styled.span`
+  width: 30px;
+  height: 30px;
+  background-color: aqua;
+  display: inline-block;
+`;
+
 const SelectableAnswersList = styled.div`
   border: 1px solid yellow;
 `;
@@ -24,7 +31,11 @@ export const OneQuestion = ({
 }: OneQuestionProps) => {
   return (
     <Ground>
-      <div>{trnslt(question.text, formLang)}</div>
+      <div>
+        <IndexOneIndicator>{questionIndex + 1}</IndexOneIndicator>
+        <span>{` `}</span>
+        <span>{trnslt(question.text, formLang)}</span>
+      </div>
 
       <SelectableAnswersList>
         {question.selectableAnswers.map(
