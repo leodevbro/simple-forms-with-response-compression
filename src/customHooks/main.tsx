@@ -1,6 +1,9 @@
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useCallback, useMemo, useRef } from 'react';
 import queryString from 'query-string';
+import { langCodes } from '@/types/mainTypes';
+
+export const fallbackLang: nsGlo.LangCode = 'ka';
 
 export type MainParamsOfUrl = {
   formLang?: nsGlo.LangCode;
@@ -66,4 +69,26 @@ export const useEasyUrlQuery = <T extends nsGlo.UrlParams>() => {
   };
 
   return returningObj;
+};
+
+export const useCurrLang = ({
+  formLangFromUrl,
+}: {
+  formLangFromUrl?: string;
+}): nsGlo.LangCode => {
+  const currLang = useMemo(() => {
+    if (!formLangFromUrl) {
+      return fallbackLang;
+    }
+
+    const inLangCodes = langCodes[formLangFromUrl as nsGlo.LangCode];
+
+    if (!inLangCodes) {
+      return fallbackLang;
+    }
+
+    return formLangFromUrl as nsGlo.LangCode;
+  }, [formLangFromUrl]);
+
+  return currLang;
 };

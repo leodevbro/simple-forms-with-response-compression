@@ -1,3 +1,4 @@
+import { trnslt } from '@/utils/main';
 import styled from 'styled-components';
 
 const Ground = styled.div`
@@ -7,11 +8,13 @@ const Ground = styled.div`
 type OneSelectableAnswerProps = {
   selectableAnswer: nsForm.SelectableAnswer;
   selectableAnswerIndex: number;
+  formLang: nsGlo.LangCode;
 };
 
 export const OneSelectableAnswer = ({
   selectableAnswer,
   selectableAnswerIndex,
+  formLang,
 }: OneSelectableAnswerProps) => {
-  return <Ground>{selectableAnswer.text.ka}</Ground>;
+  return <Ground>{trnslt(selectableAnswer.text, formLang)}</Ground>;
 };

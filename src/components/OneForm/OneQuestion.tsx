@@ -1,4 +1,6 @@
 import { OneSelectableAnswer } from '@/components/OneForm/OneSelectableAnswer';
+
+import { trnslt } from '@/utils/main';
 import styled from 'styled-components';
 
 const Ground = styled.div`
@@ -12,12 +14,17 @@ const SelectableAnswersList = styled.div`
 type OneQuestionProps = {
   question: nsForm.Question;
   questionIndex: number;
+  formLang: nsGlo.LangCode;
 };
 
-export const OneQuestion = ({ question, questionIndex }: OneQuestionProps) => {
+export const OneQuestion = ({
+  question,
+  questionIndex,
+  formLang,
+}: OneQuestionProps) => {
   return (
     <Ground>
-      <div>{question.text.ka}</div>
+      <div>{trnslt(question.text, formLang)}</div>
 
       <SelectableAnswersList>
         {question.selectableAnswers.map(
@@ -27,6 +34,7 @@ export const OneQuestion = ({ question, questionIndex }: OneQuestionProps) => {
                 key={selectableAnswer.id}
                 selectableAnswer={selectableAnswer}
                 selectableAnswerIndex={selectableAnswerIndex}
+                formLang={formLang}
               />
             );
           },

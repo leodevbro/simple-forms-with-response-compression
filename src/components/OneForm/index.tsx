@@ -3,9 +3,15 @@ import { OneQuestion } from '@/components/OneForm/OneQuestion';
 import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { MainParamsOfUrl, useEasyUrlQuery } from '@/customHooks/main';
+import {
+  MainParamsOfUrl,
+  useCurrLang,
+  useEasyUrlQuery,
+} from '@/customHooks/main';
 
-import { getFormByDomainAndVersion } from '@/utils/main';
+import { getFormByDomainAndVersion, trnslt } from '@/utils/main';
+import { FormLangSelector } from '@/components/OneForm/FormLangSelector';
+import { domainsMap } from '@/feed';
 
 const Ground = styled.div`
   border: 1px solid blue;
@@ -33,7 +39,7 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
     return foundForm;
   }, [urlQueryParams]);
 
-  console.log('urlQueryParams:::', urlQueryParams);
+  // console.log('urlQueryParams:::', urlQueryParams);
 
   const [fillingOfTheForm, setFillingOfTheForm] = useState<nsForm.One | null>(
     structuredClone(currForm),
@@ -54,6 +60,15 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
     };
   }, [urlQueryParams.domainId, urlQueryParams.vId]);
 
+  const currDomain = useMemo(() => {
+    const found = domainsMap.get(urlQueryParams.domainId || '');
+    return found || null;
+  }, [urlQueryParams.domainId]);
+
+  const currLang = useCurrLang({
+    formLangFromUrl: urlQueryParams.formLang,
+  });
+
   if (!fillingOfTheForm) {
     if (!urlQueryParams.domainId) {
       return <div>Please select domain</div>;
@@ -67,22 +82,15 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
     // throw new Error(`Form not found --- !fillingOfTheForm --- OneForm`);
   }
 
+  if (!currDomain) {
+    throw new Error(`currDomain is falsy --- OneForm`);
+  }
+
   return (
     <Ground>
-      <div
-        onClick={() => {
-          updateUrlQueryParams({
-            mode: 'merge',
-            newQuery: {
-              // aaaa778: String(Math.random()),
-              aaaa790: String(Math.random()),
-            },
-          });
-        }}
-      >
-        sfsdfsd_iIlL
-      </div>
-      <div>sfsdfsdsdfvsf</div>
+      <FormLangSelector />
+
+      <div>{trnslt(currDomain.name.text, currLang)}</div>
 
       <QuestionsList>
         {fillingOfTheForm.questions.map((question, questionIndex) => {
@@ -91,6 +99,7 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
               key={question.id}
               questionIndex={questionIndex}
               question={question}
+              formLang={currLang}
             />
           );
         })}

@@ -6,7 +6,9 @@ import { domain___n003_artTaste } from '@/feed/domains/n003_artTaste';
 
 export type TyOneDomain = {
   id: nsGlo.GoodId;
-  name: string;
+  name: {
+    text: nsGlo.OmniText;
+  };
   versions: nsForm.One[];
 };
 
@@ -42,7 +44,7 @@ export const domainsMap = (() => {
     const setOfVersionIdsInThisDomain = new Set(
       domain.versions.map((x) => x.versionId),
     );
-    console.log('setOfVersionIdsInThisDomain', setOfVersionIdsInThisDomain);
+    // console.log('setOfVersionIdsInThisDomain', setOfVersionIdsInThisDomain);
     if (setOfVersionIdsInThisDomain.size !== domain.versions.length) {
       throw new Error(
         `versionIds of this domain ${domain.id} is not unique (unique in this domain, it can be non-unique globally)`,

@@ -1,5 +1,10 @@
-import { MainParamsOfUrl, useEasyUrlQuery } from '@/customHooks/main';
+import {
+  MainParamsOfUrl,
+  useCurrLang,
+  useEasyUrlQuery,
+} from '@/customHooks/main';
 import { TyOneDomain, allFormsAsSmart2D, domainsMap } from '@/feed';
+import { trnslt } from '@/utils/main';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -19,6 +24,10 @@ export const FormSelector = () => {
 
     return found || null;
   }, [urlQueryParams.domainId]);
+
+  const currLang = useCurrLang({
+    formLangFromUrl: urlQueryParams.formLang,
+  });
 
   return (
     <Ground>
@@ -42,7 +51,7 @@ export const FormSelector = () => {
           {allFormsAsSmart2D.domains.map((formDomain) => {
             return (
               <option key={formDomain.id} value={formDomain.id}>
-                {formDomain.name}
+                {trnslt(formDomain.name.text, currLang)}
               </option>
             );
           })}

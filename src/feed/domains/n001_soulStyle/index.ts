@@ -4,6 +4,10 @@ import { TyOneDomain } from '@/feed';
 
 export const domain___n001_soulStyle: TyOneDomain = {
   id: 'n001_soulStyle',
-  name: 'Soul Style',
+  name: {
+    text: {
+      ka: 'Soul Style',
+    },
+  },
   versions: [n001_soulStyle_v01, n001_soulStyle_v02],
 };

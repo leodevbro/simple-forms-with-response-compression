@@ -5,6 +5,10 @@ export const langCodes = {
   en: 'English',
 };
 
+export const langCodesArr = Object.keys(
+  langCodes,
+) as (keyof typeof langCodes)[];
+
 declare global {
   namespace nsGlo {
     type GoodId = string;

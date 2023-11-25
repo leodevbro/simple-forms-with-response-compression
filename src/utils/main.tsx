@@ -1,3 +1,4 @@
+import { fallbackLang } from '@/customHooks/main';
 import { domainsMap } from '@/feed';
 
 export const getFormByDomainAndVersion = ({
@@ -28,4 +29,23 @@ export const getFormByDomainAndVersion = ({
   }
 
   return foundForm;
+};
+
+export const trnslt = (text: nsGlo.OmniText, lng: nsGlo.LangCode) => {
+  const thisLngStringInTheText = text[lng];
+  if (thisLngStringInTheText) {
+    return thisLngStringInTheText;
+  }
+
+  const fallBackLangStringInTheText = text[fallbackLang];
+  if (fallBackLangStringInTheText) {
+    return fallBackLangStringInTheText;
+  }
+
+  console.error(
+    `both input lng ${lng} and fallbackLang ${fallbackLang} not found in text:`,
+    text,
+  );
+
+  return '';
 };
