@@ -88,8 +88,6 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
 
   return (
     <Ground>
-      <FormLangSelector />
-
       <div>{trnslt(currDomain.name.text, currLang)}</div>
 
       <QuestionsList>

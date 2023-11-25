@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { IBM_Plex_Sans } from 'next/font/google';
 import './globals.css';
 import { StylesLayoutShiftHider } from '@/components/StylesLayoutShiftHider';
+import { DevControlForTesting } from '@/app/DevControlForTesting';
 
 const IBM_Plex_Sans_using = IBM_Plex_Sans({
   subsets: ['latin'],
@@ -21,7 +22,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={IBM_Plex_Sans_using.className}>
+      <body className={`superCoolBody ${IBM_Plex_Sans_using.className}`}>
+        <DevControlForTesting />
         <StylesLayoutShiftHider>{children}</StylesLayoutShiftHider>
       </body>
     </html>
