@@ -17,8 +17,7 @@ type OneQuestionProps = {
 export const OneQuestion = ({ question, questionIndex }: OneQuestionProps) => {
   return (
     <Ground>
-      <div>sdfsdf222</div>
-      <div>sdfsdf777</div>
+      <div>{question.text.ka}</div>
 
       <SelectableAnswersList>
         {question.selectableAnswers.map(

@@ -13,14 +13,18 @@ export const getFormByDomainAndVersion = ({
 
   const foundDomain = domainsMap.get(domainId);
   if (!foundDomain) {
-    throw new Error(`Domain not found --- useMemo --- currForm --- OneForm`);
+    console.log(`'domain (${domainId}) not found`);
+    return null;
+    // throw new Error(`Domain not found --- useMemo --- currForm --- OneForm`);
   }
 
-  const foundForm = foundDomain.versions.find((ver) => ver.id === vId);
+  const foundForm = foundDomain.versions.find((ver) => ver.versionId === vId);
   if (!foundForm) {
-    throw new Error(
-      `Form version not found --- useMemo --- currForm --- OneForm`,
-    );
+    console.log(`version (${vId}) not found for curr domain (${domainId}):`);
+    return null;
+    // throw new Error(
+    //   `Form version not found --- useMemo --- currForm --- OneForm`,
+    // );
   }
 
   return foundForm;

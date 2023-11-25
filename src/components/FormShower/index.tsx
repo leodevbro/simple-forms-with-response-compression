@@ -1,4 +1,5 @@
 'use client';
+import { FormSelector } from '@/components/FormShower/FormSelector';
 import { OneForm } from '@/components/OneForm';
 import { allFormsAsSmart2D } from '@/feed';
 import { useMemo, useState } from 'react';
@@ -22,6 +23,7 @@ export const FormShower = () => {
 
   return (
     <Ground>
+      <FormSelector />
       <OneForm />
     </Ground>
   );

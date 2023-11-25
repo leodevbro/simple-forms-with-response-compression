@@ -5,7 +5,7 @@ export const n003_artTaste_v02: nsForm.One = {
     {
       id: '1',
       text: {
-        ka: 'what is koka 1',
+        ka: 'v2 what is koka 1',
       },
       selectedAnswer: null,
       selectableAnswers: [

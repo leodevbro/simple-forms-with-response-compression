@@ -5,26 +5,26 @@ export const n002_howInformedAboutEcology_v01: nsForm.One = {
     {
       id: '1',
       text: {
-        ka: 'what is koka 1',
+        ka: 'v1 what is koka 1',
       },
       selectedAnswer: null,
       selectableAnswers: [
         {
           id: 'a',
           text: {
-            ka: 'it is the a',
+            ka: 'v1 it is the a',
           },
         },
         {
           id: 'b',
           text: {
-            ka: 'it is the b',
+            ka: 'v1 it is the b',
           },
         },
         {
           id: 'c',
           text: {
-            ka: 'it is the c',
+            ka: 'v1 it is the c',
           },
         },
       ],
