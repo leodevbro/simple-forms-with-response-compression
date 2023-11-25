@@ -56,5 +56,38 @@ export const n001_soulStyle_v01: nsForm.One = {
         },
       ],
     },
+    {
+      id: '3',
+      text: {
+        ka: 'what is koka 3',
+      },
+      selectedAnswer: null,
+      selectableAnswers: [
+        {
+          id: 'a',
+          text: {
+            ka: 'it is the a',
+          },
+        },
+        {
+          id: 'b',
+          text: {
+            ka: 'it is the b',
+          },
+        },
+        {
+          id: 'c',
+          text: {
+            ka: 'it is the c',
+          },
+        },
+        {
+          id: 'd',
+          text: {
+            ka: 'it is the d',
+          },
+        },
+      ],
+    },
   ],
 };

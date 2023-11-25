@@ -1,6 +1,6 @@
 'use client';
 import { OneQuestion } from '@/components/OneForm/OneQuestion';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -9,7 +9,12 @@ import {
   useEasyUrlQuery,
 } from '@/customHooks/main';
 
-import { getFormByDomainAndVersion, trnslt } from '@/utils/main';
+import {
+  formIntoEmptyFilling,
+  generateNiceCodeFromFilling,
+  getFormByDomainAndVersion,
+  trnslt,
+} from '@/utils/main';
 import { FormLangSelector } from '@/components/OneForm/FormLangSelector';
 import { domainsMap } from '@/feed';
 
@@ -20,6 +25,14 @@ const Ground = styled.div`
 const QuestionsList = styled.div`
   border: 1px solid green;
 `;
+
+export type TyAndwerOneQuestion = ({
+  questionIndex,
+  newAnswer,
+}: {
+  questionIndex: number;
+  newAnswer: number;
+}) => void;
 
 type OneFormProps = {
   // formFeed: nsForm.One;
@@ -41,8 +54,23 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
 
   // console.log('urlQueryParams:::', urlQueryParams);
 
-  const [fillingOfTheForm, setFillingOfTheForm] = useState<nsForm.One | null>(
-    structuredClone(currForm),
+  const [fillingOfTheForm, setFillingOfTheForm] = useState<nsForm.Filling>(
+    formIntoEmptyFilling(currForm),
+  );
+
+  const andwerOneQuestion: TyAndwerOneQuestion = useCallback(
+    ({ questionIndex, newAnswer }) => {
+      if (!fillingOfTheForm) {
+        throw new Error(`fillingOfTheForm is falsy --- andwerOneQuestion`);
+      }
+
+      const copyOfFillingOfTheForm = structuredClone(fillingOfTheForm);
+
+      copyOfFillingOfTheForm[questionIndex] = newAnswer;
+
+      setFillingOfTheForm(copyOfFillingOfTheForm);
+    },
+    [fillingOfTheForm],
   );
 
   useEffect(() => {
@@ -53,7 +81,7 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
       vId: urlQueryParams.vId,
     });
 
-    setFillingOfTheForm(structuredClone(foundForm));
+    setFillingOfTheForm(formIntoEmptyFilling(foundForm));
 
     return () => {
       // clean up anything?
@@ -69,7 +97,7 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
     formLangFromUrl: urlQueryParams.formLang,
   });
 
-  if (!fillingOfTheForm) {
+  if (!currForm) {
     if (!urlQueryParams.domainId) {
       return <div>Please select domain</div>;
     }
@@ -90,14 +118,19 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
     <Ground>
       <div>{trnslt(currDomain.name.text, currLang)}</div>
 
+      <div>{JSON.stringify(fillingOfTheForm)}</div>
+      <div>{generateNiceCodeFromFilling(fillingOfTheForm)}</div>
+
       <QuestionsList>
-        {fillingOfTheForm.questions.map((question, questionIndex) => {
+        {currForm.questions.map((question, questionIndex) => {
           return (
             <OneQuestion
               key={question.id}
               questionIndex={questionIndex}
               question={question}
               formLang={currLang}
+              fillingOfTheForm={fillingOfTheForm}
+              answerOneQuestion={andwerOneQuestion}
             />
           );
         })}

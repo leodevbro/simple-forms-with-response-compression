@@ -1,3 +1,5 @@
+import { TyLowercaseLatinLetter } from '@/utils/main';
+
 export {};
 
 export const langCodes = {
@@ -45,5 +47,7 @@ declare global {
       versionId: nsGlo.GoodId;
       questions: Question[];
     };
+
+    type Filling = null | (null | number)[];
   }
 }

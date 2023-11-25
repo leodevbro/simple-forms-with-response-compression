@@ -1,3 +1,4 @@
+import { TyAndwerOneQuestion } from '@/components/OneForm';
 import { OneSelectableAnswer } from '@/components/OneForm/OneSelectableAnswer';
 
 import { trnslt } from '@/utils/main';
@@ -22,12 +23,16 @@ type OneQuestionProps = {
   question: nsForm.Question;
   questionIndex: number;
   formLang: nsGlo.LangCode;
+  answerOneQuestion: TyAndwerOneQuestion;
+  fillingOfTheForm: nsForm.Filling;
 };
 
 export const OneQuestion = ({
   question,
   questionIndex,
   formLang,
+  fillingOfTheForm,
+  answerOneQuestion,
 }: OneQuestionProps) => {
   return (
     <Ground>
@@ -46,6 +51,15 @@ export const OneQuestion = ({
                 selectableAnswer={selectableAnswer}
                 selectableAnswerIndex={selectableAnswerIndex}
                 formLang={formLang}
+                isSelected={
+                  fillingOfTheForm
+                    ? fillingOfTheForm[questionIndex] === selectableAnswerIndex
+                    : false
+                }
+                // fillingOfTheForm={fillingOfTheForm}
+                answerOneQuestion={answerOneQuestion}
+                // question={question}
+                questionIndex={questionIndex}
               />
             );
           },

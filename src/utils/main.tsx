@@ -123,3 +123,29 @@ export const indexToLatinLowercaseLetter = (ind: number) => {
   const letter = allLowercaseLatinLetters[ind];
   return letter;
 };
+
+export const formIntoEmptyFilling = (form: nsForm.One | null) => {
+  return form ? form.questions.map((question) => null) : null;
+};
+
+export const generateNiceCodeFromFilling = (filling: nsForm.Filling) => {
+  if (!filling) {
+    return ' code could not be generated';
+  }
+
+  const strObj: {
+    v: string;
+  } = {
+    v: '',
+  };
+
+  filling.forEach((answerIndex, questionIndex) => {
+    strObj.v += `${String(questionIndex + 1)}${
+      typeof answerIndex === 'number'
+        ? indexToLatinLowercaseLetter(answerIndex)
+        : '-'
+    }`;
+  });
+
+  return strObj.v;
+};
