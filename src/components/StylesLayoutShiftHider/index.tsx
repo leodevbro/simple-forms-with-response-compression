@@ -1,5 +1,6 @@
 'use client';
 
+import { GlobalStyles } from '@/app/globalStyles';
 import { useEffect } from 'react';
 
 export const StylesLayoutShiftHider = ({
@@ -25,7 +26,12 @@ export const StylesLayoutShiftHider = ({
     };
   }, []);
 
-  return children;
+  return (
+    <>
+      <GlobalStyles />
+      {children}
+    </>
+  );
 };
 
 /*

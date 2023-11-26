@@ -6,10 +6,20 @@
 
 html,
 body {
+  position: relative;
   max-width: 100vw;
   overflow-x: auto;
+
+  /* top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+
+  height: 100%;
 }
 
 body {
   opacity: 0; /* handled by StylesLayoutShiftHider */
+
+  /* border: 10px solid red; */
 }

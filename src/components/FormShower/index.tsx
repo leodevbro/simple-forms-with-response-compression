@@ -6,6 +6,9 @@ import styled from 'styled-components';
 
 const Ground = styled.div`
   border: 1px solid red;
+  padding: 8px;
+
+  height: 100%;
 `;
 
 export const FormShower = () => {
