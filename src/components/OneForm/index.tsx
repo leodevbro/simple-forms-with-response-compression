@@ -177,9 +177,6 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
 
       <TopBox>
         <div>{trnslt(currDomain.name.text, currLang)}</div>
-
-        <div>{JSON.stringify(fillingOfTheForm)}</div>
-        <div>{generateNiceCodeFromFilling(fillingOfTheForm)}</div>
       </TopBox>
 
       <QuestionsList>
@@ -198,9 +195,8 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
       </QuestionsList>
 
       <BottomBox>
-        <div>sdfsdfsd</div>
-        <div>sdfsdfsd</div>
-        <div>sdfsdfsd</div>
+        <div>{JSON.stringify(fillingOfTheForm)}</div>
+        <div>{generateNiceCodeFromFilling(fillingOfTheForm)}</div>
       </BottomBox>
     </Ground>
   );

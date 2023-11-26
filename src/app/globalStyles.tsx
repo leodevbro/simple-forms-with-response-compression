@@ -14,18 +14,20 @@ export const GlobalStyles = createGlobalStyle`
 
     /* --scroll-color1: rgba(240, 167, 9, 0.4); */
     --scroll-color1: linear-gradient(
-                        45deg,
-                        #ff8800cf 32%,
-                        #ffe600a7 100%
+                        0deg,
+                        #ff8800cf 0%,
+                        #ffe600a7 50%,
+                        #ff8800cf 80%
                       );
 
 
 
     /* --scroll-color2: rgba(238, 176, 7, 0.6); */
     --scroll-color2: linear-gradient(
-                        45deg,
-                        #ff8800 32%,
-                        #ffe600 100%
+                        0deg,
+                        #ff8800 0%,
+                        #ffe600 50%,
+                        #ff8800 80%
                       );;
 
 
