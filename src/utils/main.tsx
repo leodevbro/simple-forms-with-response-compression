@@ -165,3 +165,10 @@ export const assignBasicIdsToQuestionsAndAnswers = (
 
   return copiedForm;
 };
+
+export const allNewLines = [
+  `
+`,
+  `\n`,
+  `\r`,
+];

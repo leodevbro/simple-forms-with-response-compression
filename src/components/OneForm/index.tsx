@@ -10,6 +10,8 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import useResizeObserver from 'use-resize-observer';
+
 import {
   MainParamsOfUrl,
   useCurrLang,
@@ -103,6 +105,7 @@ const BottomBox = styled.div`
 `;
 
 const QuestionsList = styled.div`
+  position: relative;
   /* border: 3px solid rgb(241, 254, 255); */
   /* border: 1px solid rgba(0, 0, 0, 0.07); */
   /* box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; */
@@ -126,6 +129,7 @@ const QuestionsList = styled.div`
 `;
 
 const ResponseCodeWrap = styled.div`
+  position: relative;
   max-width: 100%;
   display: flex;
   justify-content: center;
@@ -136,6 +140,7 @@ const ResponseCodeWrap = styled.div`
 `;
 
 const ResponseCode = styled.div`
+  position: relative;
   /* margin-left: auto;
   margin-right: auto; */
   /* font-size: 14px; */
@@ -164,7 +169,8 @@ const ResponseCode = styled.div`
 const DiffTextarea = styled.textarea`
   background-color: transparent;
   resize: none;
-  
+
+  overflow-wrap: anywhere;
 
   border: none;
   outline: none;
@@ -174,13 +180,12 @@ const DiffTextarea = styled.textarea`
   background-image: linear-gradient(90deg, #ffc400ae, #5eff0084);
 
   overflow-x: auto;
-  white-space: pre;
+  white-space: pre-wrap;
 
   flex-shrink: 0;
   overflow: hidden;
   overflow-x: hidden;
   overflow-y: hidden;
-
 `;
 
 const NiceSeparator = styled.div`
@@ -292,41 +297,39 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
     formLangFromUrl: urlQueryParams.formLang,
   });
 
-  const responseCode_ref = useRef<HTMLDivElement | null>(null);
+  // const responseCode_ref = useRef<HTMLDivElement | null>(null);
   const diffTextarea_ref = useRef<HTMLTextAreaElement | null>(null);
 
-  useEffect(() => {
-    // set same width for the input, same as for the response code
+  const {
+    width: widthOfResponseCode,
+    // height: heightOfResponseCode,
+    ref: responseCode_ref,
+  } = useResizeObserver<HTMLDivElement>({
+    box: 'border-box',
 
-    const theCodeElement = responseCode_ref.current;
-    if (!theCodeElement) {
-      throw new Error(
-        `theCodeElement is falsy --- responseCode_ref.current --- useEffect --- OneForm`,
-      );
-    }
+    onResize: (size) => {
+      console.log(size);
+      if (typeof size.width !== 'number') {
+        return;
+        // throw new Error(`widthOfResponseCode is not a number`);
+      }
 
-    const theDiffTextareaEl = diffTextarea_ref.current;
-    if (!theDiffTextareaEl) {
-      throw new Error(
-        `theDiffInputEl is falsy --- diffInput_ref.current --- useEffect --- OneForm`,
-      );
-    }
+      if (typeof size.height !== 'number') {
+        return;
+        // throw new Error(`heightOfResponseCode is not a number`);
+      }
 
-    const widthOfTheCodeEl = theCodeElement.offsetWidth;
-    const heightOfTheCodeEl = theCodeElement.offsetHeight;
+      if (!diffTextarea_ref.current) {
+        throw new Error(`diffTextarea_ref.current is falsy --- onResize`);
+      }
 
+      const widthOfTheCodeEl_str = `${size.width}px`;
+      const heightOfTheCodeEl_str = `${size.height}px`;
 
-    const widthOfTheCodeEl_str = `${widthOfTheCodeEl}px`;
-    const heightOfTheCodeEl_str = `${heightOfTheCodeEl}px`;
-
-
-    theDiffTextareaEl.style.width = widthOfTheCodeEl_str;
-    theDiffTextareaEl.style.height = heightOfTheCodeEl_str;
-
-
-    // theDiffInputEl.style.minWidth = widthOfTheCodeEl_str;
-    // theDiffInputEl.style.maxWidth = widthOfTheCodeEl_str;
-  }, [fillingOfTheForm]);
+      diffTextarea_ref.current.style.width = widthOfTheCodeEl_str;
+      diffTextarea_ref.current.style.height = heightOfTheCodeEl_str;
+    },
+  });
 
   if (!currForm) {
     return <div>...</div>;
@@ -374,9 +377,13 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
             {generateNiceCodeFromFilling(fillingOfTheForm)}
           </ResponseCode>
 
-          <div onClick={() => {
-            alert('dsfdsfsdf');
-          }}>კოპ</div>
+          <div
+            onClick={() => {
+              alert('dsfdsfsdf');
+            }}
+          >
+            კოპ
+          </div>
         </ResponseCodeWrap>
 
         <div style={{ height: 6 }} />
@@ -385,7 +392,7 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
           <DiffTextarea
             ref={diffTextarea_ref}
             // type="text"
-            
+
             style={responseCodeStyle}
             placeholder="სხვისი კოდი შესადარებლად"
           />
