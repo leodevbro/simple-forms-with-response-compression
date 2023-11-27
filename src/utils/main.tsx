@@ -8,7 +8,7 @@ export const getFormByDomainAndVersion = ({
 }: {
   domainId?: string;
   vId?: string;
-}): nsForm.One | null => {
+}): nsOldForm.One | null => {
   if (!domainId || !vId) {
     return null;
   }
@@ -124,11 +124,11 @@ export const indexToLatinLowercaseLetter = (ind: number) => {
   return letter;
 };
 
-export const formIntoEmptyFilling = (form: nsForm.One | null) => {
+export const formIntoEmptyFilling = (form: nsFormMin.One | null) => {
   return form ? form.questions.map((question) => null) : null;
 };
 
-export const generateNiceCodeFromFilling = (filling: nsForm.Filling) => {
+export const generateNiceCodeFromFilling = (filling: nsFormMin.Filling) => {
   if (!filling) {
     return ' code could not be generated';
   }
@@ -148,4 +148,20 @@ export const generateNiceCodeFromFilling = (filling: nsForm.Filling) => {
   });
 
   return strObj.v;
+};
+
+export const assignBasicIdsToQuestionsAndAnswers = (
+  form: nsFormMin.One,
+): nsFormMin.One => {
+  const copiedForm = structuredClone(form);
+
+  copiedForm.questions.forEach((qBox, qIndex) => {
+    qBox.id = String(qIndex + 1);
+
+    qBox.selectableAnswers.forEach((ansBox, ansIndex) => {
+      ansBox.id = String(ansIndex + 1);
+    });
+  });
+
+  return copiedForm;
 };

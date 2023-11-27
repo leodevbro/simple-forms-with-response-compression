@@ -9,7 +9,7 @@ export type TyOneDomain = {
   name: {
     text: nsGlo.OmniText;
   };
-  versions: nsForm.One[];
+  versions: nsOldForm.One[];
 };
 
 export type TyAllForms = {

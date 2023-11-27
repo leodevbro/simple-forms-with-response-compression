@@ -1,7 +1,7 @@
 import { TyAndwerOneQuestion } from '@/components/OneForm';
 import { OneSelectableAnswer } from '@/components/OneForm/OneSelectableAnswer';
 
-import { trnslt } from '@/utils/main';
+// import { trnslt } from '@/utils/main';
 import styled from 'styled-components';
 
 const Ground = styled.div`
@@ -20,15 +20,15 @@ const SelectableAnswersList = styled.div`
 `;
 
 type OneQuestionProps = {
-  question: nsForm.Question;
+  questionBox: nsFormMin.QuestionBox;
   questionIndex: number;
   formLang: nsGlo.LangCode;
   answerOneQuestion: TyAndwerOneQuestion;
-  fillingOfTheForm: nsForm.Filling;
+  fillingOfTheForm: nsFormMin.Filling;
 };
 
 export const OneQuestion = ({
-  question,
+  questionBox,
   questionIndex,
   formLang,
   fillingOfTheForm,
@@ -39,15 +39,27 @@ export const OneQuestion = ({
       <div>
         <IndexOneIndicator>{questionIndex + 1}</IndexOneIndicator>
         <span>{` `}</span>
-        <span>{trnslt(question.text, formLang)}</span>
+        <span>
+          {
+            // trnslt(question.text, formLang)
+            questionBox.question
+          }
+        </span>
       </div>
 
       <SelectableAnswersList>
-        {question.selectableAnswers.map(
+        {questionBox.selectableAnswers.map(
           (selectableAnswer, selectableAnswerIndex) => {
+            const theKey = selectableAnswer.id;
+            if (!theKey) {
+              throw new Error(
+                `theKey is falsy --- questionBox.selectableAnswers.map`,
+              );
+            }
+
             return (
               <OneSelectableAnswer
-                key={selectableAnswer.id}
+                key={theKey}
                 selectableAnswer={selectableAnswer}
                 selectableAnswerIndex={selectableAnswerIndex}
                 formLang={formLang}

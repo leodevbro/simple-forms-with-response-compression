@@ -1,5 +1,5 @@
 import { TyAndwerOneQuestion } from '@/components/OneForm';
-import { indexToLatinLowercaseLetter, trnslt } from '@/utils/main';
+import { indexToLatinLowercaseLetter } from '@/utils/main';
 import styled from 'styled-components';
 
 const Ground = styled.div`
@@ -25,7 +25,7 @@ const Abc = styled.div`
 `;
 
 type OneSelectableAnswerProps = {
-  selectableAnswer: nsForm.SelectableAnswer;
+  selectableAnswer: nsFormMin.SelectableAnswer;
   selectableAnswerIndex: number;
   formLang: nsGlo.LangCode;
   // fillingOfTheForm: nsForm.Filling;
@@ -58,7 +58,7 @@ export const OneSelectableAnswer = ({
         <Abc>{indexToLatinLowercaseLetter(selectableAnswerIndex)}</Abc>
       </span>
       <span>{` `}</span>
-      <span>{trnslt(selectableAnswer.text, formLang)}</span>
+      <span>{selectableAnswer.t}</span>
     </Ground>
   );
 };

@@ -13,10 +13,10 @@ import {
   formIntoEmptyFilling,
   generateNiceCodeFromFilling,
   getFormByDomainAndVersion,
-  trnslt,
 } from '@/utils/main';
 import { FormLangSelector } from '@/components/OneForm/FormLangSelector';
 import { domainsMap } from '@/feed';
+import { form001_withIds } from '@/feed/indexWay2';
 
 const Ground = styled.div`
   position: relative;
@@ -100,18 +100,26 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
   const { urlQueryParams, updateUrlQueryParams } =
     useEasyUrlQuery<MainParamsOfUrl>();
 
-  const currForm = useMemo<nsForm.One | null>(() => {
-    const foundForm = getFormByDomainAndVersion({
-      domainId: urlQueryParams.domainId,
-      vId: urlQueryParams.vId,
-    });
+  const currForm = useMemo<nsFormMin.One | null>(() => {
+    const externalForm: nsFormMin.One = form001_withIds;
 
-    return foundForm;
+    if (!externalForm) {
+      throw new Error(`Could not get externalForm --- currForm`);
+    }
+
+    return externalForm;
+
+    // const foundForm = getFormByDomainAndVersion({
+    //   domainId: urlQueryParams.domainId,
+    //   vId: urlQueryParams.vId,
+    // });
+
+    // return foundForm;
   }, [urlQueryParams]);
 
   // console.log('urlQueryParams:::', urlQueryParams);
 
-  const [fillingOfTheForm, setFillingOfTheForm] = useState<nsForm.Filling>(
+  const [fillingOfTheForm, setFillingOfTheForm] = useState<nsFormMin.Filling>(
     formIntoEmptyFilling(currForm),
   );
 
@@ -133,10 +141,12 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
   useEffect(() => {
     // if form changes, reset the filling entirely
 
-    const foundForm = getFormByDomainAndVersion({
-      domainId: urlQueryParams.domainId,
-      vId: urlQueryParams.vId,
-    });
+    // const foundForm = getFormByDomainAndVersion({
+    //   domainId: urlQueryParams.domainId,
+    //   vId: urlQueryParams.vId,
+    // });
+    // TODO:
+    const foundForm = form001_withIds;
 
     setFillingOfTheForm(formIntoEmptyFilling(foundForm));
 
@@ -145,14 +155,13 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
     };
   }, [urlQueryParams.domainId, urlQueryParams.vId]);
 
+  /*
   const currDomain = useMemo(() => {
     const found = domainsMap.get(urlQueryParams.domainId || '');
     return found || null;
   }, [urlQueryParams.domainId]);
 
-  const currLang = useCurrLang({
-    formLangFromUrl: urlQueryParams.formLang,
-  });
+  
 
   if (!currForm) {
     if (!urlQueryParams.domainId) {
@@ -170,22 +179,36 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
   if (!currDomain) {
     throw new Error(`currDomain is falsy --- OneForm`);
   }
+  */
+
+  const currLang = useCurrLang({
+    formLangFromUrl: urlQueryParams.formLang,
+  });
+
+  if (!currForm) {
+    return <div>...</div>;
+  }
 
   return (
     <Ground>
       <GroundBackground />
 
       <TopBox>
-        <div>{trnslt(currDomain.name.text, currLang)}</div>
+        <div>{currForm.title}</div>
       </TopBox>
 
       <QuestionsList>
         {currForm.questions.map((question, questionIndex) => {
+          const theKey = question.id;
+          if (!theKey) {
+            throw new Error(`theKey is falsy --- currForm.questions.map`);
+          }
+
           return (
             <OneQuestion
-              key={question.id}
+              key={theKey}
               questionIndex={questionIndex}
-              question={question}
+              questionBox={question}
               formLang={currLang}
               fillingOfTheForm={fillingOfTheForm}
               answerOneQuestion={andwerOneQuestion}

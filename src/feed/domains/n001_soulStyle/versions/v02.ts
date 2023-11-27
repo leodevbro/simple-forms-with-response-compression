@@ -1,4 +1,4 @@
-export const n001_soulStyle_v02: nsForm.One = {
+export const n001_soulStyle_v02: nsOldForm.One = {
   id: 'n001_soulStyle_v02',
   versionId: '2',
   questions: [

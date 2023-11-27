@@ -26,7 +26,7 @@ declare global {
     };
   }
 
-  namespace nsForm {
+  namespace nsOldForm {
     type SelectableAnswer = {
       id: nsGlo.GoodId;
       text: nsGlo.OmniText;
@@ -46,6 +46,30 @@ declare global {
       id: nsGlo.GoodId;
       versionId: nsGlo.GoodId;
       questions: Question[];
+    };
+
+    type Filling = null | (null | number)[];
+  }
+
+  namespace nsFormMin {
+    type SelectableAnswer = {
+      id?: string;
+      t: string;
+    };
+
+    type QuestionBox = {
+      id?: string;
+      question: string;
+      selectableAnswers: SelectableAnswer[];
+    };
+
+    type One = {
+      id: nsGlo.GoodId;
+      versionId: nsGlo.GoodId;
+      title: string;
+      info: string;
+      details: string;
+      questions: QuestionBox[];
     };
 
     type Filling = null | (null | number)[];

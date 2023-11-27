@@ -1,4 +1,4 @@
-export const n002_howInformedAboutEcology_v02: nsForm.One = {
+export const n002_howInformedAboutEcology_v02: nsOldForm.One = {
   id: 'n002_howInformedAboutEcology_v02',
   versionId: '2',
   questions: [
