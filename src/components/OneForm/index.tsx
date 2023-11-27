@@ -95,13 +95,14 @@ const QuestionsList = styled.div`
 
   /* border-radius: 6px; */
   padding: 6px;
+  padding-left: 12px;
   padding-top: 12px;
   padding-bottom: 12px;
   /* padding-left: 0; */
   flex-grow: 1;
   flex-shrink: 1;
 
-  overflow-y: auto;
+  overflow-y: scroll;
 
   display: flex;
   flex-direction: column;

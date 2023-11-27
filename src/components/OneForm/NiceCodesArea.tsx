@@ -1,9 +1,9 @@
 'use client';
-import { generateNiceCodeFromFilling } from '@/utils/main';
+import { allNewLines, generateNiceCodeFromFilling } from '@/utils/main';
 import styled from 'styled-components';
 
 import { IBM_Plex_Mono_using } from '@/app/globalStyles';
-import { CSSProperties, useRef } from 'react';
+import { CSSProperties, useMemo, useRef, useState } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
 import { CopyButton } from '@/components/mini/CopyButton';
@@ -120,15 +120,21 @@ export const NiceCodesArea = ({
     },
   });
 
+  const niceCodeOfResponse = useMemo(() => {
+    return generateNiceCodeFromFilling(fillingOfTheForm);
+  }, [fillingOfTheForm]);
+
+  const [diffVal, setDiffVal] = useState<string>('');
+
   return (
     <Ground>
       {/* <div>დააჭირეთ კოდს რომ დაკოპირდეს</div> */}
       <ResponseCodeWrap>
         <ResponseCode ref={responseCode_ref} style={responseCodeStyle}>
-          {generateNiceCodeFromFilling(fillingOfTheForm)}
+          {niceCodeOfResponse}
         </ResponseCode>
 
-        <CopyButton />
+        <CopyButton textToCopy={niceCodeOfResponse} />
       </ResponseCodeWrap>
 
       <div style={{ height: 6 }} />
@@ -137,12 +143,23 @@ export const NiceCodesArea = ({
         <DiffTextarea
           ref={diffTextarea_ref}
           // type="text"
+          value={diffVal}
+          onChange={(e) => {
+            const candVal = e.target.value;
 
+            for (const nl of allNewLines) {
+              if (candVal.includes(nl)) {
+                return;
+              }
+            }
+
+            setDiffVal(candVal);
+          }}
           style={responseCodeStyle}
           placeholder="სხვისი კოდი შესადარებლად"
         />
 
-        <CopyButton />
+        <CopyButton textToCopy={diffVal} />
       </ResponseCodeWrap>
       {/* <div>ჩასვით სხვისი კოდი შესადარებლად</div> */}
     </Ground>

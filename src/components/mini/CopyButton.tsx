@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import CopySvg from '@/assets/vectorItems/Copy.svg';
+import { allNewLines } from '@/utils/main';
 
 const Ground = styled.div`
   position: relative;
@@ -20,9 +21,29 @@ const Ground = styled.div`
   }
 `;
 
-export const CopyButton = () => {
+export const CopyButton = ({ textToCopy }: { textToCopy: string }) => {
+  const doTheCopy = () => {
+    for (const nl of allNewLines) {
+      if (textToCopy.includes(nl)) {
+        alert(
+          `ტექსტში დაფიქსირდა ერთზე მეტი ხაზი, გთხოვთ მხოლოდ ერთი ხაზის ტექსტი შეიყვანოთ`,
+        );
+        return;
+      }
+    }
+
+    navigator.clipboard.writeText(textToCopy);
+
+    if (textToCopy === '') {
+      alert(`Copied text is an empty string`);
+      return;
+    }
+
+    alert(`Copied text is: ${`\n`} ${textToCopy}`);
+  };
+
   return (
-    <Ground>
+    <Ground onClick={doTheCopy}>
       <CopySvg style={{ width: 18, height: 18 }} />
     </Ground>
   );
