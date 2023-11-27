@@ -5,7 +5,14 @@ import { OneSelectableAnswer } from '@/components/OneForm/OneSelectableAnswer';
 import styled from 'styled-components';
 
 const Ground = styled.div`
-  border: 1px solid brown;
+  /* border: 1px solid brown; */
+  /* margin: 30px; */
+  background-color: rgba(255, 255, 255, 0.4);
+  /* border: 2px solid rgba(250, 213, 6, 0.5); */
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 6px;
+
+  padding: 4px;
 `;
 
 const IndexOneIndicator = styled.span`
@@ -16,7 +23,7 @@ const IndexOneIndicator = styled.span`
 `;
 
 const SelectableAnswersList = styled.div`
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
 `;
 
 type OneQuestionProps = {

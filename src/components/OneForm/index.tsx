@@ -21,9 +21,13 @@ import { form001_withIds } from '@/feed/indexWay2';
 const Ground = styled.div`
   position: relative;
   /* border: 7px solid blue; */
-  padding: 12px;
+  padding: 6px;
+  padding-left: 0;
+  padding-right: 0;
   /* border: 4px solid #0000003b; */
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; */
 
   border-radius: 12px;
   width: 600px;
@@ -35,9 +39,10 @@ const Ground = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  /* row-gap: 8px; */
 `;
 
-const GroundBackground = styled.div`
+export const GroundBackground = styled.div`
   border-radius: 12px;
   position: absolute;
   z-index: -100;
@@ -65,6 +70,8 @@ const TopBox = styled.div`
 
   flex-grow: 0;
   flex-shrink: 0;
+
+  padding: 6px 12px;
 `;
 
 const BottomBox = styled.div`
@@ -73,14 +80,39 @@ const BottomBox = styled.div`
 
   flex-grow: 0;
   flex-shrink: 0;
+
+  padding: 6px 12px;
 `;
 
 const QuestionsList = styled.div`
-  /* border: 5px solid brown; */
+  /* border: 3px solid rgb(241, 254, 255); */
+  /* border: 1px solid rgba(0, 0, 0, 0.07); */
+  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; */
+
+
+  /* box-shadow: 0 0 10px 0 rgba(0,0,0,0.1) inset; */
+
+  /* border-radius: 6px; */
+  padding: 6px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  /* padding-left: 0; */
   flex-grow: 1;
   flex-shrink: 1;
 
   overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  row-gap: 24px;
+`;
+
+const NiceSeparator = styled.div`
+  height: 1px;
+  min-height: 1px;
+  background-image: linear-gradient(90deg, #585858, gray);
+  /* background: black; */
 `;
 
 export type TyAndwerOneQuestion = ({
@@ -195,7 +227,12 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
 
       <TopBox>
         <div>{currForm.title}</div>
+        <div>sfsdfsdfsdfsdf</div>
+        <div>sfsdfsdfsdfsdf</div>
+        <div>sfsdfsdfsdfsdf</div>
       </TopBox>
+
+      <NiceSeparator />
 
       <QuestionsList>
         {currForm.questions.map((question, questionIndex) => {
@@ -217,9 +254,14 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
         })}
       </QuestionsList>
 
+      <NiceSeparator />
+
       <BottomBox>
-        <div>{JSON.stringify(fillingOfTheForm)}</div>
+        {/* <div>{JSON.stringify(fillingOfTheForm)}</div> */}
         <div>{generateNiceCodeFromFilling(fillingOfTheForm)}</div>
+        <div>sdfsdfsdfsdf</div>
+        <div>sdfsdfsdfsdf</div>
+        <div>sdfsdfsdfsdf</div>
       </BottomBox>
     </Ground>
   );
