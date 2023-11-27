@@ -1,4 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
+import { IBM_Plex_Mono } from 'next/font/google';
+
+export const IBM_Plex_Mono_using = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
+});
 
 export const GlobalStyles = createGlobalStyle`
   body {

@@ -18,8 +18,24 @@ const Ground = styled.div`
 const IndexOneIndicator = styled.span`
   width: 30px;
   height: 30px;
-  background-color: aqua;
-  display: inline-block;
+  border-radius: 4px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+
+  font-weight: 700;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 6px;
+
+  font-size: 18px;
+`;
+
+const QuestionText = styled.span`
+  font-weight: 600;
+  font-size: 16px;
 `;
 
 const SelectableAnswersList = styled.div`
@@ -46,12 +62,7 @@ export const OneQuestion = ({
       <div>
         <IndexOneIndicator>{questionIndex + 1}</IndexOneIndicator>
         <span>{` `}</span>
-        <span>
-          {
-            // trnslt(question.text, formLang)
-            questionBox.question
-          }
-        </span>
+        <QuestionText>{questionBox.question}</QuestionText>
       </div>
 
       <SelectableAnswersList>

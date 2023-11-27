@@ -1,6 +1,13 @@
 'use client';
 import { OneQuestion } from '@/components/OneForm/OneQuestion';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  CSSProperties,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 
 import {
@@ -17,8 +24,19 @@ import {
 import { FormLangSelector } from '@/components/OneForm/FormLangSelector';
 import { domainsMap } from '@/feed';
 import { form001_withIds } from '@/feed/indexWay2';
+import { IBM_Plex_Mono_using } from '@/app/globalStyles';
+
+const responseCodeStyle: CSSProperties = {
+  ...IBM_Plex_Mono_using.style,
+  fontSize: `14px`,
+  fontWeight: `bold`,
+  fontStyle: `normal`,
+  paddingLeft: `10px`,
+  paddingRight: `10px`,
+};
 
 const Ground = styled.div`
+  color: rgba(24, 24, 24, 1);
   position: relative;
   /* border: 7px solid blue; */
   padding: 6px;
@@ -89,13 +107,12 @@ const QuestionsList = styled.div`
   /* border: 1px solid rgba(0, 0, 0, 0.07); */
   /* box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; */
 
-
   /* box-shadow: 0 0 10px 0 rgba(0,0,0,0.1) inset; */
 
   /* border-radius: 6px; */
   padding: 6px;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   /* padding-left: 0; */
   flex-grow: 1;
   flex-shrink: 1;
@@ -106,6 +123,64 @@ const QuestionsList = styled.div`
   flex-direction: column;
   flex-wrap: nowrap;
   row-gap: 24px;
+`;
+
+const ResponseCodeWrap = styled.div`
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+  flex-wrap: nowrap;
+  column-gap: 4px;
+`;
+
+const ResponseCode = styled.div`
+  /* margin-left: auto;
+  margin-right: auto; */
+  /* font-size: 14px; */
+
+  flex-shrink: 1;
+
+  padding: 6px;
+  /* margin: 6px; */
+  /* margin-bottom: 6px; */
+
+  display: inline-block;
+
+  border-radius: 6px;
+  background-image: linear-gradient(90deg, #00ff15af, #00ffb384);
+
+  &:hover {
+    /* cursor: pointer; */
+    /* background-image: linear-gradient(90deg, #00ff6a6f, #00ff6a47); */
+  }
+
+  &:active {
+    /* background-image: linear-gradient(90deg, #00ff6a9b, #00ff6a75); */
+  }
+`;
+
+const DiffTextarea = styled.textarea`
+  background-color: transparent;
+  resize: none;
+  
+
+  border: none;
+  outline: none;
+
+  padding: 6px;
+  border-radius: 6px;
+  background-image: linear-gradient(90deg, #ffc400ae, #5eff0084);
+
+  overflow-x: auto;
+  white-space: pre;
+
+  flex-shrink: 0;
+  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
 `;
 
 const NiceSeparator = styled.div`
@@ -217,6 +292,42 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
     formLangFromUrl: urlQueryParams.formLang,
   });
 
+  const responseCode_ref = useRef<HTMLDivElement | null>(null);
+  const diffTextarea_ref = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    // set same width for the input, same as for the response code
+
+    const theCodeElement = responseCode_ref.current;
+    if (!theCodeElement) {
+      throw new Error(
+        `theCodeElement is falsy --- responseCode_ref.current --- useEffect --- OneForm`,
+      );
+    }
+
+    const theDiffTextareaEl = diffTextarea_ref.current;
+    if (!theDiffTextareaEl) {
+      throw new Error(
+        `theDiffInputEl is falsy --- diffInput_ref.current --- useEffect --- OneForm`,
+      );
+    }
+
+    const widthOfTheCodeEl = theCodeElement.offsetWidth;
+    const heightOfTheCodeEl = theCodeElement.offsetHeight;
+
+
+    const widthOfTheCodeEl_str = `${widthOfTheCodeEl}px`;
+    const heightOfTheCodeEl_str = `${heightOfTheCodeEl}px`;
+
+
+    theDiffTextareaEl.style.width = widthOfTheCodeEl_str;
+    theDiffTextareaEl.style.height = heightOfTheCodeEl_str;
+
+
+    // theDiffInputEl.style.minWidth = widthOfTheCodeEl_str;
+    // theDiffInputEl.style.maxWidth = widthOfTheCodeEl_str;
+  }, [fillingOfTheForm]);
+
   if (!currForm) {
     return <div>...</div>;
   }
@@ -257,11 +368,30 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
       <NiceSeparator />
 
       <BottomBox>
-        {/* <div>{JSON.stringify(fillingOfTheForm)}</div> */}
-        <div>{generateNiceCodeFromFilling(fillingOfTheForm)}</div>
-        <div>sdfsdfsdfsdf</div>
-        <div>sdfsdfsdfsdf</div>
-        <div>sdfsdfsdfsdf</div>
+        {/* <div>დააჭირეთ კოდს რომ დაკოპირდეს</div> */}
+        <ResponseCodeWrap>
+          <ResponseCode ref={responseCode_ref} style={responseCodeStyle}>
+            {generateNiceCodeFromFilling(fillingOfTheForm)}
+          </ResponseCode>
+
+          <div onClick={() => {
+            alert('dsfdsfsdf');
+          }}>კოპ</div>
+        </ResponseCodeWrap>
+
+        <div style={{ height: 6 }} />
+
+        <ResponseCodeWrap>
+          <DiffTextarea
+            ref={diffTextarea_ref}
+            // type="text"
+            
+            style={responseCodeStyle}
+            placeholder="სხვისი კოდი შესადარებლად"
+          />
+          <div>კოპ</div>
+        </ResponseCodeWrap>
+        {/* <div>ჩასვით სხვისი კოდი შესადარებლად</div> */}
       </BottomBox>
     </Ground>
   );
