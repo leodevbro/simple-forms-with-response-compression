@@ -17,28 +17,18 @@ export const GlobalStyles = createGlobalStyle`
     --scroll-track-color: rgba(0, 0, 0, 0);
 
 
-
-    /* --scroll-color1: rgba(240, 167, 9, 0.4); */
     --scroll-color1: linear-gradient(
                         0deg,
-                        #ff8800cf 0%,
-                        #ffe600a7 50%,
-                        #ff8800cf 80%
+                        rgba(82, 148, 111, 0.404) 0%,
+                        rgba(75, 155, 128, 0.397) 80%
                       );
 
 
-
-    /* --scroll-color2: rgba(238, 176, 7, 0.6); */
     --scroll-color2: linear-gradient(
                         0deg,
-                        #ff8800 0%,
-                        #ffe600 50%,
-                        #ff8800 80%
-                      );;
-
-
-
-    
+                        rgba(77, 167, 116, 0.671) 0%,
+                        rgba(67, 165, 109, 0.603) 80%
+                      );
 
     overflow-wrap: anywhere;
   }

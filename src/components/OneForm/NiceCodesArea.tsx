@@ -6,6 +6,8 @@ import { IBM_Plex_Mono_using } from '@/app/globalStyles';
 import { CSSProperties, useRef } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
+import { CopyButton } from '@/components/mini/CopyButton';
+
 const responseCodeStyle: CSSProperties = {
   ...IBM_Plex_Mono_using.style,
   fontSize: `14px`,
@@ -45,7 +47,7 @@ const ResponseCode = styled.div`
   display: inline-block;
 
   border-radius: 6px;
-  background-image: linear-gradient(90deg, #00ff15af, #00ffb384);
+  background-image: linear-gradient(90deg, #00ff1552, #00ffb347);
 
   &:hover {
     /* cursor: pointer; */
@@ -68,7 +70,7 @@ const DiffTextarea = styled.textarea`
 
   padding: 6px;
   border-radius: 6px;
-  background-image: linear-gradient(90deg, #ffc400ae, #5eff0084);
+  background-image: linear-gradient(90deg, #ffc40075, #5eff0065);
 
   overflow-x: auto;
   white-space: pre-wrap;
@@ -126,13 +128,7 @@ export const NiceCodesArea = ({
           {generateNiceCodeFromFilling(fillingOfTheForm)}
         </ResponseCode>
 
-        <div
-          onClick={() => {
-            alert('dsfdsfsdf');
-          }}
-        >
-          კოპ
-        </div>
+        <CopyButton />
       </ResponseCodeWrap>
 
       <div style={{ height: 6 }} />
@@ -145,7 +141,8 @@ export const NiceCodesArea = ({
           style={responseCodeStyle}
           placeholder="სხვისი კოდი შესადარებლად"
         />
-        <div>კოპ</div>
+
+        <CopyButton />
       </ResponseCodeWrap>
       {/* <div>ჩასვით სხვისი კოდი შესადარებლად</div> */}
     </Ground>

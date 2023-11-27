@@ -82,7 +82,7 @@ const BottomBox = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
 
-  padding: 6px 12px;
+  padding: 12px 12px 6px 12px;
 `;
 
 const QuestionsList = styled.div`
