@@ -229,9 +229,8 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
 
       <TopBox>
         <div>{currForm.title}</div>
-        <div>sfsdfsdfsdfsdf</div>
-        <div>sfsdfsdfsdfsdf</div>
-        <div>sfsdfsdfsdfsdf</div>
+        <div>{currForm.info}</div>
+        <div>{currForm.details}</div>
       </TopBox>
 
       <NiceSeparator />

@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import CopySvg from '@/assets/vectorItems/Copy.svg';
-import { allNewLines } from '@/utils/main';
+import { allNewLines, handleCopy_oldWay } from '@/utils/main';
 
 const Ground = styled.div`
   position: relative;
-  border-radius: 4px;
-  background-image: linear-gradient(rgb(37, 165, 25), rgb(146, 214, 58));
+  border-radius: 400px;
+  background-image: radial-gradient(
+    rgba(37, 165, 25, 0.707),
+    rgba(146, 214, 58, 0.697)
+  );
   padding: 6px;
 
   width: 30px;
@@ -13,16 +16,22 @@ const Ground = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-image: linear-gradient(rgb(38, 197, 23), rgb(147, 233, 36));
+    background-image: radial-gradient(
+      rgba(38, 197, 23, 0.875),
+      rgba(148, 233, 36, 0.789)
+    );
   }
 
   &:active {
-    background-image: linear-gradient(rgb(32, 226, 14), rgb(142, 238, 16));
+    background-image: radial-gradient(
+      rgba(38, 197, 23, 1),
+      rgba(148, 233, 36, 1)
+    );
   }
 `;
 
 export const CopyButton = ({ textToCopy }: { textToCopy: string }) => {
-  const doTheCopy = () => {
+  const doTheCopy = async () => {
     for (const nl of allNewLines) {
       if (textToCopy.includes(nl)) {
         alert(
@@ -32,7 +41,11 @@ export const CopyButton = ({ textToCopy }: { textToCopy: string }) => {
       }
     }
 
-    navigator.clipboard.writeText(textToCopy);
+    if (navigator?.clipboard?.writeText) {
+      await navigator.clipboard.writeText(textToCopy);
+    } else {
+      handleCopy_oldWay(textToCopy);
+    }
 
     if (textToCopy === '') {
       alert(`Copied text is an empty string`);
