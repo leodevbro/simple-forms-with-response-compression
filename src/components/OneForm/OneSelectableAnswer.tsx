@@ -15,7 +15,8 @@ const Ground = styled.div`
   margin: 10px;
 
   &:hover {
-    border-color: #06cef1 !important;
+    /* border-color: rgba(126, 230, 240, 0.6) !important; */
+    background-color: rgba(126, 230, 240, 0.2);
     cursor: pointer;
   }
 
