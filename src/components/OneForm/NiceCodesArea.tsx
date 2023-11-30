@@ -52,11 +52,11 @@ const ResponseCode = styled.div`
   display: inline-block;
 
   border-radius: 6px;
-  background-image: linear-gradient(90deg, #00ff1552, #00ffb347);
+  background-image: linear-gradient(90deg, #00ff1532, #00ffb334);
 
   &:hover {
     /* cursor: pointer; */
-    /* background-image: linear-gradient(90deg, #00ff6a6f, #00ff6a47); */
+    /* background-image: linear-gradient(90deg, #00ff6a40, #00ff6a2b); */
   }
 
   &:active {
@@ -142,10 +142,10 @@ export const NiceCodesArea = ({
       {/* <div>დააჭირეთ კოდს რომ დაკოპირდეს</div> */}
       <ResponseCodeWrap>
         <ResponseCode ref={responseCode_ref} style={responseCodeStyle}>
-          {niceCodeOfResponse}
+          {niceCodeOfResponse.myJsx}
         </ResponseCode>
 
-        <CopyButton textToCopy={niceCodeOfResponse} />
+        <CopyButton textToCopy={niceCodeOfResponse.text} />
       </ResponseCodeWrap>
 
       <div style={{ height: 6 }} />

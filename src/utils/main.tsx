@@ -133,9 +133,17 @@ export const formIntoEmptyFilling = (form: nsFormMin.One | null) => {
   return form ? form.questions.map((question) => null) : null;
 };
 
-export const generateNiceCodeFromFilling = (filling: nsFormMin.Filling) => {
+export const generateNiceCodeFromFilling = (
+  filling: nsFormMin.Filling,
+): {
+  text: string;
+  myJsx: React.ReactNode;
+} => {
   if (!filling) {
-    return ' code could not be generated';
+    return {
+      text: ' code could not be generated',
+      myJsx: ' code could not be generated',
+    };
   }
 
   const strObj: {
@@ -152,7 +160,35 @@ export const generateNiceCodeFromFilling = (filling: nsFormMin.Filling) => {
     }`;
   });
 
-  return strObj.v;
+  const myJsx = (
+    <span>
+      {filling.map((answerIndex, questionIndex) => {
+        const isNum = typeof answerIndex === 'number';
+
+        return (
+          <span key={questionIndex} className={isNum ? 'isTruthy' : 'isNull'}>
+            <span
+              style={{
+                borderRadius: `4px`,
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05))`,
+              }}
+            >
+              {questionIndex + 1}
+            </span>
+            <span
+              style={{
+                color: isNum ? 'rgb(12, 98, 228)' : 'red',
+              }}
+            >
+              {isNum ? indexToLatinLowercaseLetter(answerIndex) : '-'}
+            </span>
+          </span>
+        );
+      })}
+    </span>
+  );
+
+  return { text: strObj.v, myJsx };
 };
 
 export const assignBasicIdsToQuestionsAndAnswers = (
