@@ -1,5 +1,9 @@
 'use client';
-import { allNewLines, generateNiceCodeFromFilling } from '@/utils/main';
+import {
+  allNewLines,
+  checkValidityOfResponseCode,
+  generateNiceCodeFromFilling,
+} from '@/utils/main';
 import styled from 'styled-components';
 
 import { IBM_Plex_Mono_using } from '@/app/globalStyles';
@@ -7,6 +11,7 @@ import { CSSProperties, useMemo, useRef, useState } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
 import { CopyButton } from '@/components/mini/CopyButton';
+import { MAX_COUNT_OF_QUESTIONS } from '@/utils/constants';
 
 const responseCodeStyle: CSSProperties = {
   ...IBM_Plex_Mono_using.style,
@@ -79,6 +84,10 @@ const DiffTextarea = styled.textarea`
   overflow: hidden;
   overflow-x: hidden;
   overflow-y: hidden;
+
+  &.diffValError {
+    outline: 2px solid red;
+  }
 `;
 
 export const NiceCodesArea = ({
@@ -126,6 +135,8 @@ export const NiceCodesArea = ({
 
   const [diffVal, setDiffVal] = useState<string>('');
 
+  const [diffValError, setDiffValError] = useState<false | string>(false);
+
   return (
     <Ground>
       {/* <div>დააჭირეთ კოდს რომ დაკოპირდეს</div> */}
@@ -141,6 +152,7 @@ export const NiceCodesArea = ({
 
       <ResponseCodeWrap>
         <DiffTextarea
+          className={diffValError ? 'diffValError' : ''}
           ref={diffTextarea_ref}
           // type="text"
           value={diffVal}
@@ -153,7 +165,20 @@ export const NiceCodesArea = ({
               }
             }
 
+            if (candVal.length > MAX_COUNT_OF_QUESTIONS * 10) {
+              alert(`too long text`);
+              return;
+            }
+
+            const inpCodeToArr = checkValidityOfResponseCode(candVal);
+
             setDiffVal(candVal);
+
+            if (!inpCodeToArr) {
+              setDiffValError('error');
+            } else {
+              setDiffValError(false);
+            }
           }}
           style={responseCodeStyle}
           placeholder="სხვისი კოდი შესადარებლად"
