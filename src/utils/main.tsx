@@ -89,6 +89,11 @@ export const allLowercaseLatinLetters_set = new Set<TyLowercaseLatinLetter>(
   allLowercaseLatinLetters,
 );
 
+export const allLowercaseLatinLetters_map = new Map<
+  TyLowercaseLatinLetter,
+  number
+>(allLowercaseLatinLetters.map((letter, index) => [letter, index]));
+
 export const allLowercaseLatinLetters_fromSystem = String.fromCharCode(
   ...Array(123).keys(),
 ).slice(97);
@@ -127,6 +132,15 @@ export const indexToLatinLowercaseLetter = (ind: number) => {
 
   const letter = allLowercaseLatinLetters[ind];
   return letter;
+};
+
+export const latinLowercaseLetterToIndex = (letter: TyLowercaseLatinLetter) => {
+  const indexInMap = allLowercaseLatinLetters_map.get(letter);
+  if (typeof indexInMap === 'number') {
+    return indexInMap;
+  }
+
+  return null;
 };
 
 export const formIntoEmptyFilling = (form: nsFormMin.One | null) => {
@@ -229,7 +243,7 @@ export const checkValidityOfResponseCode = (inp: string) => {
 
   // can be an empty string
   if (inp.length === 0) {
-    return true;
+    return [];
   }
 
   const inpSet = new Set(inp.split(''));

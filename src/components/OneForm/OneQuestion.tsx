@@ -48,6 +48,7 @@ type OneQuestionProps = {
   formLang: nsGlo.LangCode;
   answerOneQuestion: TyAndwerOneQuestion;
   fillingOfTheForm: nsFormMin.Filling;
+  fillingOfTheForm_ofOtherPerson: nsFormMin.Filling;
 };
 
 export const OneQuestion = ({
@@ -56,6 +57,7 @@ export const OneQuestion = ({
   formLang,
   fillingOfTheForm,
   answerOneQuestion,
+  fillingOfTheForm_ofOtherPerson
 }: OneQuestionProps) => {
   return (
     <Ground>
@@ -84,6 +86,11 @@ export const OneQuestion = ({
                 isSelected={
                   fillingOfTheForm
                     ? fillingOfTheForm[questionIndex] === selectableAnswerIndex
+                    : false
+                }
+                isSelectedByOtherPerson={
+                  fillingOfTheForm_ofOtherPerson
+                    ? fillingOfTheForm_ofOtherPerson[questionIndex] === selectableAnswerIndex
                     : false
                 }
                 // fillingOfTheForm={fillingOfTheForm}

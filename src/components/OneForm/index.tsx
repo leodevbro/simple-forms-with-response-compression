@@ -9,11 +9,7 @@ import {
   useEasyUrlQuery,
 } from '@/customHooks/main';
 
-import {
-  formIntoEmptyFilling,
-
-  getFormByDomainAndVersion,
-} from '@/utils/main';
+import { formIntoEmptyFilling, getFormByDomainAndVersion } from '@/utils/main';
 
 import { form001_withIds } from '@/feed/indexWay2';
 import { NiceCodesArea } from '@/components/OneForm/NiceCodesArea';
@@ -157,6 +153,13 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
     formIntoEmptyFilling(currForm),
   );
 
+  const [fillingOfTheForm_ofOtherPerson, setFillingOfTheForm_ofOtherPerson] =
+    useState<nsFormMin.Filling>([]);
+
+  const updateFillingOfOtherPerson = (newFilling: nsFormMin.Filling) => {
+    setFillingOfTheForm_ofOtherPerson(newFilling);
+  };
+
   const andwerOneQuestion: TyAndwerOneQuestion = useCallback(
     ({ questionIndex, newAnswer }) => {
       if (!fillingOfTheForm) {
@@ -249,6 +252,7 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
               questionBox={question}
               formLang={currLang}
               fillingOfTheForm={fillingOfTheForm}
+              fillingOfTheForm_ofOtherPerson={fillingOfTheForm_ofOtherPerson}
               answerOneQuestion={andwerOneQuestion}
             />
           );
@@ -258,7 +262,10 @@ export const OneForm = ({ aaaa }: OneFormProps) => {
       <NiceSeparator />
 
       <BottomBox>
-        <NiceCodesArea fillingOfTheForm={fillingOfTheForm} />
+        <NiceCodesArea
+          fillingOfTheForm={fillingOfTheForm}
+          updateFillingOfOtherPerson={updateFillingOfOtherPerson}
+        />
       </BottomBox>
     </Ground>
   );

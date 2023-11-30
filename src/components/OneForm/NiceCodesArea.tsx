@@ -3,6 +3,7 @@ import {
   allNewLines,
   checkValidityOfResponseCode,
   generateNiceCodeFromFilling,
+  latinLowercaseLetterToIndex,
 } from '@/utils/main';
 import styled from 'styled-components';
 
@@ -92,8 +93,10 @@ const DiffTextarea = styled.textarea`
 
 export const NiceCodesArea = ({
   fillingOfTheForm,
+  updateFillingOfOtherPerson,
 }: {
   fillingOfTheForm: nsFormMin.Filling;
+  updateFillingOfOtherPerson: (newFilling: nsFormMin.Filling) => void;
 }) => {
   // const responseCode_ref = useRef<HTMLDivElement | null>(null);
   const diffTextarea_ref = useRef<HTMLTextAreaElement | null>(null);
@@ -176,8 +179,14 @@ export const NiceCodesArea = ({
 
             if (!inpCodeToArr) {
               setDiffValError('error');
+              updateFillingOfOtherPerson([]);
             } else {
               setDiffValError(false);
+              updateFillingOfOtherPerson(
+                inpCodeToArr.map((letter) => {
+                  return latinLowercaseLetterToIndex(letter);
+                }),
+              );
             }
           }}
           style={responseCodeStyle}

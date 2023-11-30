@@ -23,6 +23,10 @@ const Ground = styled.div`
     background-color: #14d6f024;
     border-color: #06cef165;
   }
+
+  &.isSelectedByOtherPerson {
+    outline: 4px solid #f8d3039e;
+  }
 `;
 
 const Abc = styled.div`
@@ -50,6 +54,7 @@ type OneSelectableAnswerProps = {
   formLang: nsGlo.LangCode;
   // fillingOfTheForm: nsForm.Filling;
   isSelected: boolean;
+  isSelectedByOtherPerson: boolean;
   answerOneQuestion: TyAndwerOneQuestion;
   // question: nsForm.Question
   questionIndex: number;
@@ -61,12 +66,15 @@ export const OneSelectableAnswer = ({
   formLang,
   // fillingOfTheForm,
   isSelected,
+  isSelectedByOtherPerson,
   answerOneQuestion,
   questionIndex,
 }: OneSelectableAnswerProps) => {
   return (
     <Ground
-      className={isSelected ? 'isSelected' : ''}
+      className={`${isSelected ? 'isSelected' : ''} ${
+        isSelectedByOtherPerson ? 'isSelectedByOtherPerson' : ''
+      }`}
       onClick={() => {
         answerOneQuestion({
           questionIndex,
