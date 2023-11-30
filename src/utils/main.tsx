@@ -1,6 +1,7 @@
 import { fallbackLang } from '@/customHooks/main';
 import { domainsMap } from '@/feed';
 import { ArrElement } from '@/types/helperTypes';
+import { MAX_COUNT_OF_QUESTIONS } from '@/utils/constants';
 
 export const getFormByDomainAndVersion = ({
   domainId,
@@ -83,6 +84,10 @@ export const allLowercaseLatinLetters = [
 export type TyLowercaseLatinLetter = ArrElement<
   typeof allLowercaseLatinLetters
 >;
+
+export const allLowercaseLatinLetters_set = new Set<TyLowercaseLatinLetter>(
+  allLowercaseLatinLetters,
+);
 
 export const allLowercaseLatinLetters_fromSystem = String.fromCharCode(
   ...Array(123).keys(),
@@ -172,3 +177,83 @@ export const allNewLines = [
   `\n`,
   `\r`,
 ];
+
+export const regexOfAnyLatinLowercaseLetter = new RegExp(
+  `[${allLowercaseLatinLetters_fromSystem}]`,
+);
+
+export const checkValidityOfResponseCode = (inp: string) => {
+  if (typeof inp !== 'string') {
+    throw new Error(`inp is not a string --- checkValidityOfResponseCode`);
+  }
+
+  if (inp.length > MAX_COUNT_OF_QUESTIONS * 10) {
+    return false;
+  }
+
+  // can be an empty string
+  if (inp.length === 0) {
+    return true;
+  }
+
+  const inpSet = new Set(inp.split(''));
+
+  // should not have new line character
+  for (const nl of allNewLines) {
+    if (inpSet.has(nl)) {
+      return false;
+    }
+  }
+
+  const arrBuild: {
+    v: TyLowercaseLatinLetter[];
+  } = {
+    v: [],
+  };
+
+  for (let i = 0; i < inp.length; i += 1) {
+    const nowStepOne = arrBuild.v.length + 1;
+    const nowStepOne_str = String(nowStepOne);
+    const digitsCountOfNowStepOne = nowStepOne_str.length;
+
+    const shouldBeNumStr = inp.slice(i, i + digitsCountOfNowStepOne);
+
+    if (nowStepOne_str !== shouldBeNumStr) {
+      return false;
+    }
+
+    const shouldBeLowLetter = inp.slice(
+      i + digitsCountOfNowStepOne,
+      i + digitsCountOfNowStepOne + 1,
+    );
+    if (
+      !allLowercaseLatinLetters_set.has(
+        shouldBeLowLetter as TyLowercaseLatinLetter,
+      ) &&
+      shouldBeLowLetter !== '-'
+    ) {
+      return false;
+    }
+
+    arrBuild.v.push(shouldBeLowLetter as TyLowercaseLatinLetter);
+
+    i += digitsCountOfNowStepOne;
+  }
+
+  if (arrBuild.v.length > MAX_COUNT_OF_QUESTIONS) {
+    alert('Max number of questions is 50');
+    return false;
+  }
+
+  return arrBuild.v;
+};
+
+export const handleCopy_oldWay = (textToCopy: string) => {
+  const element = document.createElement('textarea');
+  element.value = textToCopy;
+  document.body.appendChild(element);
+  element.select();
+  document.execCommand('copy');
+  document.body.removeChild(element);
+  // alert('📋 Coppied to clipboard!');
+};
